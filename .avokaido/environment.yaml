@@ -1,0 +1,12 @@
+# Avokaido per-project environment manifest.
+#
+# The batch runner reads this to learn which backend integrations the
+# scaffold expects to be wired up. Edit by hand only if you know
+# what you're doing — the runner re-emits this file on each pass.
+project: flutter_starter
+type: flutter
+generated_by: avokaido-discuss
+integrations:
+  firebase_auth: false
+  firestore: false
+  cloud_functions: false

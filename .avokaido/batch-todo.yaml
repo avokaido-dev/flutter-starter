@@ -1,0 +1,9 @@
+# Avokaido batch-runner work queue.
+#
+# The discussFlutterApp prompt asks Claude to append per-app items
+# here when it generates a new scaffold (auth wiring, Firestore models,
+# deploy workflows). The default file is empty — Claude OVERWRITES it
+# the moment a concrete app is described.
+version: 1
+project_type: flutter
+items: []
