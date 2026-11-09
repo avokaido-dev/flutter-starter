@@ -23,7 +23,8 @@ generated screens — every gesture works against the stub services
 ```
 lib/
   app.dart                 MaterialApp.router
-  main.dart                runApp(MyApp())
+  main.dart                runAppReportingErrors(MyApp())
+  errors/                  error reporting — see docs/errors.md
   router/
     app_router.dart        GoRouter wired to routes.dart
     routes.dart            Route table (regenerated per app)
@@ -45,3 +46,10 @@ single, focused change: swap a stub for the real thing, add a missing
 Firestore index, push a deploy workflow. The markers carry the exact
 contract (collection names, return types) so the runner doesn't have
 to infer what you meant.
+
+## Errors
+
+Every error the app does not handle shows a short reference ("Reference
+K7PQ2M") and is logged at severity ERROR in the app's own Cloud Logging.
+`docs/errors.md` says where to look, how to find a reference, and what is
+never logged.
