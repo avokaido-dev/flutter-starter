@@ -14,6 +14,8 @@ import 'package:flutter/foundation.dart';
 ///     - isSignedIn returns true after a successful signIn / token refresh
 ///     - signOut clears the token and notifies listeners
 ///     - addListener is called by the router for redirect decisions
+///     - every change of user calls `setErrorReportUser(uid)` (null on
+///       sign-out), so error reports name who hit them (docs/errors.md)
 class AuthService extends ChangeNotifier {
   bool _signedIn = false;
 
