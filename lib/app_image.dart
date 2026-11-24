@@ -2,14 +2,18 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import 'app_image_base.dart';
+
 /// Pictures Avokaido generates for this app.
 ///
 /// Every picture nobody supplied is generated after the app ships. Its address
 /// is fixed before the picture exists:
 ///
-///     $AVO_MEDIA_BASE/<slot>.webp
+///     $appImageBase/<slot>
 ///
-/// Avokaido first writes a "Generating picture…" placeholder there, then
+/// with the base from `app_image_base.dart`, which Avokaido writes when it
+/// creates the app. The address has no file extension: the server says what
+/// kind of picture it is. Avokaido first writes a "Generating picture…" placeholder there, then
 /// overwrites it with the real picture, so the app fills in without a new
 /// release. Each slot used in the code has one entry in
 /// `avokaido/images.json` (slot, prompt, alt, aspect), which is what tells
@@ -18,12 +22,6 @@ import 'package:flutter/material.dart';
 ///     AppImage('products/wool-coat-black',
 ///         aspect: AppImageAspect.portrait,
 ///         semanticLabel: 'A black wool coat on a hanger')
-///
-/// The base comes from the build: `--dart-define=AVO_MEDIA_BASE=<url>`.
-
-/// Where the app's pictures live, as the build was given it. Empty when the
-/// build has none (local development before Avokaido has set it).
-const String avoMediaBase = String.fromEnvironment('AVO_MEDIA_BASE');
 
 /// A slot is at most this many characters.
 const int maxSlotLength = 80;
@@ -44,14 +42,14 @@ bool isValidSlot(String slot) =>
 /// A bad slot fails an assert, so the mistake is found in a debug run; a
 /// release build still returns an address, which fails to load and shows the
 /// waiting card.
-String appImageUrl(String slot, {String base = avoMediaBase}) {
+String appImageUrl(String slot, {String base = appImageBase}) {
   assert(
     isValidSlot(slot),
     'Invalid picture slot "$slot". A slot is kebab-case segments joined by '
     '"/" (a-z, 0-9, "-", "/"), at most $maxSlotLength characters, such as '
     '"home/hero" or "products/wool-coat-black".',
   );
-  return '${_trimBase(base)}/$slot.webp';
+  return '${_trimBase(base)}/$slot';
 }
 
 String _trimBase(String base) {
@@ -103,7 +101,7 @@ class AppImage extends StatelessWidget {
     this.semanticLabel,
     this.aspect,
     this.pendingLabel = defaultPendingLabel,
-    this.base = avoMediaBase,
+    this.base = appImageBase,
   });
 
   /// The picture's name, such as `home/hero`. See [isValidSlot].
@@ -121,7 +119,7 @@ class AppImage extends StatelessWidget {
   /// The waiting card's words, in the app's language.
   final String pendingLabel;
 
-  /// Where the pictures live; the build's `AVO_MEDIA_BASE` unless a test
+  /// Where the pictures live; the app's own ([appImageBase]) unless a test
   /// passes another.
   final String base;
 
