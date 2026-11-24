@@ -11,8 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # Pinned to the Flutter the cloud runner and the mobile template build
+      # with (MOBILE_FLUTTER_VERSION in avokaido_desktop). On 3.47 the
+      # analyzer reports every `package:flutter/material.dart` import as
+      # deprecated, which fails `flutter analyze` on code that is fine.
       - uses: subosito/flutter-action@v2
         with:
+          flutter-version: 3.41.7
           channel: stable
       - run: flutter pub get
       - run: flutter analyze
